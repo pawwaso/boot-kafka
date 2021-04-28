@@ -30,7 +30,7 @@ public class Publisher {
 
                     @Override
                     public void onSuccess(SendResult<String, String> result) {
-                        log.info("sent successfully: {}; result {}", message, result.getRecordMetadata());
+                        log.info("sent successfully: {}; result {}; topic {}", message, result.getRecordMetadata(),topicName);
                     }
                 });
         return message;

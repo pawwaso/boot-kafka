@@ -18,19 +18,10 @@ public class ProducerController {
     private final Publisher publisher;
 
     @Operation(description = "produce messages to topic.")
-    @PostMapping("/messages")
+    @PostMapping(value = "/messages",consumes = "application/json",produces = "application/json")
     public SampleMessage publishMessage(
             @NotNull @Valid @RequestBody SampleMessage message) {
         log.info("message {}", message);
         return publisher.publish(message);
-    }
-
-
-    @Operation(description = "produce messages to topic.")
-    @GetMapping("/messages2")
-    public SampleMessage getPortfoliosDailyValues(
-            @NotNull @RequestParam(value = "test", required = false) String ss) {
-        log.info("message {}", ss);
-        return null;
     }
 }

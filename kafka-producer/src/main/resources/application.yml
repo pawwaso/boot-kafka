@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: symbols-merge-stream
+  jmx:
+    enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    jolokia:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+app:
+  kafka:
+    topic:
+      name: topic_to_produce_to

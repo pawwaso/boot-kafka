@@ -18,9 +18,9 @@ public class MessageConsumer {
 
     @KafkaListener(topics = "${app.kafka.topic.name}")
     public void receive(@Payload SampleMessage sm,
-                        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
+                        @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) long timestamp) {
-        log.info("consuming {}; key {}; timestamp {}", sm,key,timestamp);
+        log.info("consuming {}; topic {}; timestamp {}", sm,topic,timestamp);
         repository.save(sm);
     }
 }

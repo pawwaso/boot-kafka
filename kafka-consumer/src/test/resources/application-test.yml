@@ -1,0 +1,9 @@
+app:
+  kafka:
+    topic:
+      name: test_topic_to_consume_from
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+    bootstrap-servers: ${spring.embedded.kafka.brokers}

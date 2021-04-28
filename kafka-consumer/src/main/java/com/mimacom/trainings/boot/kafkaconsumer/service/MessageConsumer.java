@@ -16,10 +16,10 @@ public class MessageConsumer {
 
     private final EphemeralRepository repository;
 
-    @KafkaListener(topics = "${app.kafka.topic.name}")
+    @KafkaListener(topics = "")// TODO use placeholders to set up topic's name
     public void receive(@Payload SampleMessage sm,
                         @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) long timestamp) {
+                        /* TODO let timestamp be injected too */ long timestamp) {
         log.info("consuming {}; topic {}; timestamp {}", sm,topic,timestamp);
         repository.save(sm);
     }

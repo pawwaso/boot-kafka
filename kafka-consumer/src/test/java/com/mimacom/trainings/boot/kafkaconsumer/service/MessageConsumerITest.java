@@ -56,7 +56,7 @@ class MessageConsumerITest {
     @Test
     void consumed_withKey_withPayload_ok() throws InterruptedException {
         //arrange act
-        produceRecord("validKey", "{}");
+        produceRecord("validKey", "");// TODO provide minimalistic valid payload and make the test pass
         // assert
         assertConsumptionAtMost(
                 () -> {
@@ -74,7 +74,7 @@ class MessageConsumerITest {
     @Test
     void consumed_withoutKey_withPayload_ok() throws InterruptedException {
         //arrange act
-        produceRecord(null, "{}");
+//TODO check if null key leaves this test pass        produceRecord(....
         // assert
         assertConsumptionAtMost(
                 () -> {
@@ -91,7 +91,7 @@ class MessageConsumerITest {
     @Test
     void consumed_withKey_invalidPayload_errorHandled() throws InterruptedException {
         //arrange act
-        produceRecord("key", "invalid");
+        //TODO set invalid payload and make this test still pass 'graceful failover'       produceRecord(....
         // assert
         assertConsumptionDelayed(
                 () -> {
@@ -111,7 +111,7 @@ class MessageConsumerITest {
     void consumed_withKey_firstPayloadInvalid_secondOk() throws InterruptedException {
         //arrange act
         produceRecord("key", "invalid");
-        produceRecord("key", "{}}");
+        //TODO produce another valid record and make sure only one message has been processed
         // assert
         assertConsumptionAtMost(
                 () -> {

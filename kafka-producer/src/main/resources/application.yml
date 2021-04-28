@@ -1,6 +1,6 @@
 spring:
   application:
-    name: symbols-merge-stream
+    name: mima-kafka-boot-producer
   jmx:
     enabled: true
 

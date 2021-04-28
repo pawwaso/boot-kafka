@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: mima-kafka-boot-consumer
+  jmx:
+    enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ${spring.application.name}
+      enable-auto-commit: true
+      auto-offset-reset: latest
+      # in case of any deserialization errors we register this hook (logging bean)
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        # Delegate deserializers
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        #This time we still have String but it is supposed to be json, so we deserialize it using spring-kafka
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        # we do not use headers to pass inf about type
+        spring.json.use.type.headers: false
+        # this is a pojo class we expect
+        spring.json.value.default.type: com.mimacom.trainings.boot.kafkaconsumer.domain.SampleMessage
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    jolokia:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+app:
+  kafka:
+    topic:
+      name: topic_to_consume_from

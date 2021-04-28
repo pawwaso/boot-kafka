@@ -25,9 +25,11 @@ class ProducerControllerITest {
     private MockMvc mockMvc;
     @Autowired
     ObjectMapper mapper;
+
+    private static final String API_MESSAGES = "/api/messages";
+    //kafka remains decoupled in this test
     @MockBean
     private Publisher publisher;
-    private static final String API_MESSAGES = "/api/messages";
 
     @Test
     void postMessage_ok() throws Exception {
@@ -36,11 +38,13 @@ class ProducerControllerITest {
         final SampleMessage sm = TestUtils.random();
         this.mockMvc.
                 perform(MockMvcRequestBuilders.post(API_MESSAGES)
-                        .content(mapper.writeValueAsString(sm))
+                        //    .content( //TODO provide body to this request
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)).
-                andDo(MockMvcResultHandlers.print()).
-                andExpect(MockMvcResultMatchers.status().isOk());
+                        .accept(MediaType.APPLICATION_JSON)
+                ).
+                andDo(MockMvcResultHandlers.print())
+        //   .andExpect( // TODO write expectation (200)
+        ;
     }
 
 
@@ -48,15 +52,16 @@ class ProducerControllerITest {
     void postMessage_valueMissing_nok() throws Exception {
         //arrange
         final SampleMessage sm = TestUtils.random();
+        // TODO prepare invalid body
         //act assert
-        sm.setValue(null);
         this.mockMvc.
                 perform(MockMvcRequestBuilders.post(API_MESSAGES)
-                        .content(mapper.writeValueAsString(sm))
+                        //  .content(  //TODO provide body to this request
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)).
-                andDo(MockMvcResultHandlers.print()).
-                andExpect(MockMvcResultMatchers.status().isBadRequest());
+                andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+        ;
         Assertions.assertNotNull(sm);
     }
 

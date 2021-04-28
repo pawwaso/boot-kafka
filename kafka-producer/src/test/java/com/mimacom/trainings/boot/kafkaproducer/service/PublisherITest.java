@@ -43,12 +43,10 @@ class PublisherITest {
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
 
-
     // we test this publisher
     private Publisher publisher;
 
     private Consumer<String, String> consumer;
-
 
     @Value("${app.kafka.topic.name}")
     private String topicName;
@@ -78,7 +76,7 @@ class PublisherITest {
         //arrange
         final SampleMessage sm = TestUtils.random();
         //act
-        publisher.publish(sm);
+      //  publisher.  // TODO invoke actual test method
 
         //assert
         final List<ConsumerRecord<String, String>> records = consumerRecords();
@@ -88,8 +86,9 @@ class PublisherITest {
     }
 
     private List<ConsumerRecord<String, String>> consumerRecords() {
-        embeddedKafkaBroker.consumeFromAnEmbeddedTopic(consumer, topicName);
-        final Iterable<ConsumerRecord<String, String>> iterableRecords = KafkaTestUtils.getRecords(consumer).records(topicName);
+      //  embeddedKafkaBroker.consumeFromAnEmbeddedTopic( //TODO force test consumer to consume
+        final Iterable<ConsumerRecord<String, String>> iterableRecords=null;
+       // iterableRecords= KafkaTestUtils.getRecords( // TODO get actual records
         final List<ConsumerRecord<String, String>> records = Lists.newArrayList(iterableRecords);
         log.info("results {}", records);
         return records;

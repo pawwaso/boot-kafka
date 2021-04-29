@@ -1,8 +1,5 @@
 package com.mimacom.trainings.boot.kafkastreams.infrastructure.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mimacom.trainings.boot.kafkastreams.TestUtils;
 import com.mimacom.trainings.boot.kafkastreams.domain.Collision;
 import com.mimacom.trainings.boot.kafkastreams.domain.Combination;
@@ -23,7 +20,6 @@ import org.springframework.kafka.support.serializer.JsonSerde;
 
 import java.util.Properties;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 @Slf4j
 class KafkaStreamsCollisionsConfigurationTest {
@@ -90,8 +86,8 @@ class KafkaStreamsCollisionsConfigurationTest {
         Assertions.assertFalse(outputTopic.isEmpty());
         final Collision collision = outputTopic.readValue();
         Assertions.assertEquals(matchingId, collision.getIdIntermediate());
-        Assertions.assertEquals(decay.getIdOut1(),collision.getIdOut1());
-        Assertions.assertEquals(combination.getIdIn1(),collision.getIdIn1());
+        Assertions.assertEquals(decay.getIdOut1(), collision.getIdOut1());
+        Assertions.assertEquals(combination.getIdIn1(), collision.getIdIn1());
     }
 
     /**

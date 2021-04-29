@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerde;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.function.BiFunction;
 
@@ -71,6 +72,15 @@ class KafkaStreamsCollisionsConfigurationTest {
         Assertions.assertTrue(outputTopic.isEmpty());
     }
 
+    @Test
+    void nullValues_filteredOut_empty() {
+
+        decayTopic.pipeInput("any",null);
+        combinationTopic.pipeInput("other", null);
+
+        //assert
+        Assertions.assertTrue(outputTopic.isEmpty());
+    }
 
     @Test
     void singleCombination_singleDecay_idsMatch_oneReturned() {
@@ -88,6 +98,24 @@ class KafkaStreamsCollisionsConfigurationTest {
         Assertions.assertEquals(matchingId, collision.getIdIntermediate());
         Assertions.assertEquals(decay.getIdOut1(), collision.getIdOut1());
         Assertions.assertEquals(combination.getIdIn1(), collision.getIdIn1());
+    }
+
+
+    @Test
+    void twoCombinations_singleDecay_idsMatch_twoReturned() {
+        //arrange
+        final String matchingId = "matchingId";
+        final Decay decay = TestUtils.randomDecay(matchingId);
+        final Combination combination = TestUtils.randomCombination(matchingId);
+        //act
+        combinationTopic.pipeInput("other", TestUtils.randomCombination(matchingId));
+        decayTopic.pipeInput("any", TestUtils.randomDecay(matchingId));
+        combinationTopic.pipeInput("some", TestUtils.randomCombination(matchingId));
+
+        //assert
+        Assertions.assertFalse(outputTopic.isEmpty());
+        final List<Collision> collisions = outputTopic.readValuesToList();
+        Assertions.assertEquals(2, collisions.size());
     }
 
     /**

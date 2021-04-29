@@ -1,6 +1,5 @@
 package com.mimacom.trainings.boot.kafkastreams.infrastructure.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mimacom.trainings.boot.kafkastreams.domain.Collision;
 import com.mimacom.trainings.boot.kafkastreams.domain.Combination;
 import com.mimacom.trainings.boot.kafkastreams.domain.Decay;
@@ -10,16 +9,13 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.JoinWindows;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.kafka.streams.kstream.StreamJoined;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.support.serializer.JsonSerde;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.function.BiFunction;
 
 @Configuration
@@ -29,6 +25,7 @@ public class KafkaStreamsCollisionsConfiguration {
 
     /**
      * Consider this method's name change, what else should be changed.
+     *
      * @return
      */
     @Bean

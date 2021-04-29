@@ -1,0 +1,77 @@
+
+spring:
+  application:
+    name: mima-kafka-boot-streams
+  jmx:
+    enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ${spring.application.name}
+      enable-auto-commit: true
+      auto-offset-reset: latest
+      # in case of any deserialization errors we register this hook (logging bean)
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        # Delegate deserializers
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        #This time we still have String but it is supposed to be json, so we deserialize it using spring-kafka
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        # we do not use headers to pass inf about type
+        spring.json.use.type.headers: false
+        # we do not use default pojo, we let pojo be chosen programmatically
+        spring.json.trusted.packages: '*'
+  cloud:
+    stream:
+      function:
+        definition: processMimacom
+        bindings:
+          processMimacom-in-0: ${app.kafka.topic.input.first.name}
+          processMimacom-in-1: ${app.kafka.topic.input.second.name}
+          processMimacom-out-0: ${app.kafka.topic.output.name}
+
+      kafka:
+        streams:
+          binder:
+            applicationId: processMimacom-stream-service
+            deserializationExceptionHandler: logAndContinue
+            configuration:
+              spring.json.trusted.packages: '*'
+              spring.json.use.type.headers: false
+              commit.interval.ms: 100
+              default:
+                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            brokers: localhost:9092
+            consumer-properties:
+              spring.json.trusted.packages: '*'
+              spring.json.use.type.headers: false
+
+  json:
+    trusted:
+      packages: '*'
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    jolokia:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+app:
+  kafka:
+    topic:
+      input:
+        first:
+          name: topic_combination_to_consume_from
+        second:
+          name: topic_decay_to_consume_from
+      output:
+        name: topic_output_to_produce_to
+

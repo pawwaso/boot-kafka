@@ -1,0 +1,7 @@
+app:
+  kafka:
+    topic:
+      first:
+        name: test_topic_first_to_consume_from
+      second:
+        name: test_topic_second_to_consume_from

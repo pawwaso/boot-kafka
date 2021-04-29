@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * Simulator.
  * Decay and combination topics producer.
  * Produces random entries to both topics. MEdssages are produces with fixed delay.
  */

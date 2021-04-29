@@ -23,9 +23,8 @@ import java.util.function.BiFunction;
 public class KafkaStreamsCollisionsConfiguration {
 
     /**
-     * Consider this method's name change, what else should be changed.
+     * TODO Consider renaming this method, what else should be changed.
      *
-     * @return
      */
     @Bean
     public BiFunction<KStream<String, Combination>, KStream<String, Decay>, KStream<String, Collision>> processMimacom() {
@@ -34,9 +33,9 @@ public class KafkaStreamsCollisionsConfiguration {
 
                 combinationStream
                         //non-terminal logging
-                        .peek((k, v) -> log.info("combination received k:{}, v:{}", k, v))
+                     //TODO  add   peek(.. to log what's been received
                         // we take only reasonable combinations
-                        .filter((k, v) -> v != null && v.getIdOut() != null)
+                       // TODO   implement .filter(... to filter out null values and null 'idOut'
                         // rekey stream on the left by idOut
                         .map((k, v) -> KeyValue.pair(v.getIdOut(), v))
                         //now symmetric join
@@ -44,15 +43,15 @@ public class KafkaStreamsCollisionsConfiguration {
                                 // with right rekeyed stream
                                 decayStream
                                         //non-terminal logging
-                                        .peek((k, v) -> log.info("decay received k:{}, v:{}", k, v))
+                                        //TODO  add   peek(.. to log what's been received in decays topic
                                         // we take only reasonably decays
-                                        .filter((k, v) -> v != null && v.getIdIn() != null)
+                                        // TODO   implement .filter(... to filter out null values and null 'idIn'
                                         //rekey by idIn
                                         .map((k, v) -> KeyValue.pair(v.getIdIn(), v)),
                                 //join to produce collision
-                                (com, dec) -> merge(com.getIdOut(), com, dec),
+                                (com, dec) -> /* TODO call  actual join use 'this.merge()' method */ null,
                                 // within sliding window of given size
-                                JoinWindows.of(Duration.ofSeconds(30)),
+                                /* TODO define window JoinWindows.... */ null,
                                 // define serdes for key and in-values
                                 StreamJoined.with(
                                         Serdes.String(),
@@ -60,7 +59,8 @@ public class KafkaStreamsCollisionsConfiguration {
                                         new JsonSerde<>(Decay.class)
 
                                 ))
-                        .peek((k, v) -> log.info("output k:{}, v:{}", k, v));
+                //TODO  add   peek(.. to log what's about to be published
+                ;
     }
 
     private Collision merge(String key, Combination combination, Decay decay) {

@@ -104,13 +104,7 @@ class KafkaStreamsCollisionsConfigurationTest {
     @Test
     void twoCombinations_singleDecay_idsMatch_twoReturned() {
         //arrange
-        final String matchingId = "matchingId";
-        final Decay decay = TestUtils.randomDecay(matchingId);
-        final Combination combination = TestUtils.randomCombination(matchingId);
-        //act
-        combinationTopic.pipeInput("other", TestUtils.randomCombination(matchingId));
-        decayTopic.pipeInput("any", TestUtils.randomDecay(matchingId));
-        combinationTopic.pipeInput("some", TestUtils.randomCombination(matchingId));
+       // TODO implement actual test matching assertions 
 
         //assert
         Assertions.assertFalse(outputTopic.isEmpty());

@@ -104,7 +104,7 @@ class KafkaStreamsCollisionsConfigurationTest {
     @Test
     void twoCombinations_singleDecay_idsMatch_twoReturned() {
         //arrange
-       // TODO implement actual test matching assertions 
+       // TODO implement actual test matching assertions
 
         //assert
         Assertions.assertFalse(outputTopic.isEmpty());

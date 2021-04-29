@@ -22,7 +22,7 @@ import java.util.UUID;
  * Decay and combination topics producer.
  * Produces random entries to both topics. MEdssages are produces with fixed delay.
  */
-@Service
+// TODO enable this publisher
 @Slf4j
 @Profile("!test")
 @RequiredArgsConstructor

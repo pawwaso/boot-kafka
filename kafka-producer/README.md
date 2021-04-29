@@ -5,3 +5,4 @@
 4. Run the app with either with `mvn spring-boot:run` or in IDE
 5. Go to http://localhost:8080/swagger-ui.html and invoke POST `/messages`
 6. Go to e.g. Control Center `http://localhost:9021` and see your messages
+7. call `docker-compose down -v` at the end of exercise

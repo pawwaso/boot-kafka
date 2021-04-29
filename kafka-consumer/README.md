@@ -7,3 +7,4 @@
 6. Go to broker docker image  `docker exec -it broker /bin/bash` 
 7. Produce messages with `kafka-console-producer --topic topic_to_consume_from --bootstrap-server localhost:9092 --property "parse.key=true" --property "key.separator=:"`
 8. call  ` GET api/messages`
+9. call `docker-compose down -v` at the end of exercise

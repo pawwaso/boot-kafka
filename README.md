@@ -10,6 +10,8 @@ is a spring-cloud (functional approach) based exercise focusing on KStreams Api 
 
 Every exercise contains TODO's. These define tasks to be accomplished, usually by implementing single line.
 
+# Kafka Springboot Exercises Setup
+
 In order to start with these exercises:
 1. git clone them
 2. install and start docker-compose locally

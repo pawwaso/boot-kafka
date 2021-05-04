@@ -20,7 +20,7 @@ management:
     web:
       exposure:
         include: '*'
-
+# TODO create ConfigurationProperties and replace @Value wiring in code
 app:
   kafka:
     topic:

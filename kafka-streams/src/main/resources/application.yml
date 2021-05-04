@@ -50,7 +50,7 @@ management:
     web:
       exposure:
         include: '*'
-
+# TODO create ConfigurationProperties and replace @Value wiring in code
 app:
   kafka:
     topic:
@@ -61,4 +61,3 @@ app:
           name: topic_decay_to_consume_from
       output:
         name: topic_output_to_produce_to
-
